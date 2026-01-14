@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Category;
-use App\Models\VariationType;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model implements HasMedia
+class VariationTypeOption extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    //
 
     public function registerAllMediaConversions(?Media $media = null): void
     {
@@ -21,20 +20,5 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('large')->width(1200);
        // $this->addMediaConversion('smal')->width(480);
 
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function variationTypes()
-    {
-        return $this->hasMany(VariationType::class);
     }
 }

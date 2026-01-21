@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\ProductStatusEnum;
 use App\Models\Category;
 use App\Models\VariationType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -27,6 +29,14 @@ class Product extends Model implements HasMedia
 
     }
 
+    public function scopeForVendor(Builder $query){
+        return $query->where('created_by', auth()->user()->id);
+    }
+
+    public function scopePublished(Builder $query){
+        return $query->where('status', ProductStatusEnum::Published->value);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -44,5 +54,9 @@ class Product extends Model implements HasMedia
 
     public function variations(){
         return $this->hasMany(ProductVariation::class, 'product_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
